@@ -1,16 +1,12 @@
-import { QuestionRepository } from "App/Repositories/QuestionRepository"
-import { QuestionContract } from "./Interfaces/QuestionContract"
+import { QuestionRepository } from 'App/Repositories/QuestionRepository'
+import { QuestionContract } from './Interfaces/QuestionContract'
 
 export class ShowQuestionUseCase {
+  constructor(private questionRepository: QuestionRepository) {}
 
-    constructor(private questionRepository: QuestionRepository) {}
-  
-    async execute(id: string): Promise<QuestionContract | null> {
+  async execute(id: string): Promise<QuestionContract | null> {
+    const result = await this.questionRepository.show(id)
 
-      const result = await this.questionRepository.show(id)
-
-      return result;
-      
-    }
+    return result
   }
-  
+}

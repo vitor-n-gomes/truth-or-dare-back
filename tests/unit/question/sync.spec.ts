@@ -4,38 +4,30 @@ import { SyncQuestionCategoriesUseCase } from 'App/UseCases/Question/SyncQuestio
 import { randomUUID } from 'node:crypto'
 
 let repository: InMemoryQuestionRepository
-let sut: SyncQuestionCategoriesUseCase;
+let sut: SyncQuestionCategoriesUseCase
 
 test.group('Sync Question With Categories UseCase', (group) => {
-
   group.each.setup(() => {
-    repository = new InMemoryQuestionRepository();
-    sut = new SyncQuestionCategoriesUseCase(repository);
+    repository = new InMemoryQuestionRepository()
+    sut = new SyncQuestionCategoriesUseCase(repository)
   })
 
-
   test('Sync', async ({ assert }) => {
-
-    try{
-
+    try {
       const id = randomUUID()
 
       const result = await sut.execute({
         questionid: id,
-        categories: [{
-          id: randomUUID()
-        }]
-      });
-  
-      assert.exists(result.message);
-  
-    }catch(error){
+        categories: [
+          {
+            id: randomUUID(),
+          },
+        ],
+      })
 
-      assert.fail('Expected BadRequestException but got success');
-
+      assert.exists(result.message)
+    } catch (error) {
+      assert.fail('Expected BadRequestException but got success')
     }
-   
   })
-
 })
-

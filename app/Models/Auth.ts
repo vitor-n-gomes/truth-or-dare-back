@@ -22,7 +22,7 @@ export default class Auth extends BaseModel {
   public updatedAt: DateTime
 
   @beforeSave()
-  public static async hashPassword (auth: Auth) {
+  public static async hashPassword(auth: Auth) {
     if (auth.$dirty.password) {
       auth.password = await Hash.make(auth.password)
     }

@@ -5,31 +5,25 @@ import { CreateCategoryUseCase } from 'App/UseCases/Category/CreateCategoryUseCa
 import { randomUUID } from 'node:crypto'
 
 let repository: InMemoryCategoryRepository
-let sut: CreateCategoryUseCase;
+let sut: CreateCategoryUseCase
 
 test.group('Create Category Use Case', (group) => {
-  
   group.each.setup(() => {
-   repository = new InMemoryCategoryRepository(); 
-   sut = new CreateCategoryUseCase(repository);
+    repository = new InMemoryCategoryRepository()
+    sut = new CreateCategoryUseCase(repository)
   })
 
-
   test('Creating a new category', async ({ assert }) => {
-
     const id = randomUUID()
 
     const category = {
       userid: id,
       description: 'Life & Experiences',
-      status: true
+      status: true,
     }
 
-    const result = await sut.execute({category});
+    const result = await sut.execute({ category })
 
-    assert.exists(result.id);
-
+    assert.exists(result.id)
   })
-  
 })
-

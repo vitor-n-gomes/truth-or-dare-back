@@ -1,15 +1,13 @@
-
 export interface LoginContract {
-    email: string,
-    password: string
+  email: string
+  password: string
 }
 
-
 export interface RequestResetPasswordContract {
-    email: string
+  email: string
 }
 
 export interface ValidateTokenContract {
-    id: string,
-    randomValue: string
+  id: string
+  randomValue: string
 }

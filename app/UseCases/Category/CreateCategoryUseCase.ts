@@ -1,17 +1,12 @@
-import { CategoryRepository } from "App/Repositories/CategoryRepository"
-import { CategoryContract, CreateCategoryContract } from "./Interfaces/CategoryContract"
-
+import { CategoryRepository } from 'App/Repositories/CategoryRepository'
+import { CategoryContract, CreateCategoryContract } from './Interfaces/CategoryContract'
 
 export class CreateCategoryUseCase {
+  constructor(private categoryRepository: CategoryRepository) {}
 
-    constructor(private categoryRepository: CategoryRepository) {}
-  
-    async execute(data: CreateCategoryContract): Promise<CategoryContract> {
+  async execute(data: CreateCategoryContract): Promise<CategoryContract> {
+    const category = await this.categoryRepository.create(data)
 
-      const category = await this.categoryRepository.create(data);
-
-      return category;
-      
-    }
+    return category
   }
-  
+}

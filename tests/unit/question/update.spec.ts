@@ -7,18 +7,16 @@ import { UpdateQuestionUseCase } from 'App/UseCases/Question/UpdateQuestionUseCa
 import { randomUUID } from 'node:crypto'
 
 let repository: InMemoryQuestionRepository
-let sut: UpdateQuestionUseCase;
-let questionId: string | undefined;
+let sut: UpdateQuestionUseCase
+let questionId: string | undefined
 let question: QuestionContract
 
 test.group('Update Question Use Case', (group) => {
+  group.each.setup(async () => {
+    repository = new InMemoryQuestionRepository()
+    sut = new UpdateQuestionUseCase(repository)
 
-  group.each.setup( async () => {
-
-    repository = new InMemoryQuestionRepository();
-    sut = new UpdateQuestionUseCase(repository);
-
-    const createUseCase = new CreateQuestionUseCase(repository);
+    const createUseCase = new CreateQuestionUseCase(repository)
 
     const userid = randomUUID()
 
@@ -26,32 +24,27 @@ test.group('Update Question Use Case', (group) => {
       userid: userid,
       description: 'What is your favorite food?',
       status: true,
-      type: 1
+      type: 1,
     }
-    const { id } = await createUseCase.execute({question});
+    const { id } = await createUseCase.execute({ question })
 
-    questionId = id;
-
+    questionId = id
   })
 
-
   test('Updating a question', async ({ assert }) => {
-
     const newQuestion = {
       userid: randomUUID(),
       description: 'Send a picture showing your tongue for your mom?',
       status: true,
-      type: 2
+      type: 2,
     }
 
-    assert.exists(questionId);
+    assert.exists(questionId)
 
-    const result = await sut.execute({ id: questionId, question: newQuestion });
+    const result = await sut.execute({ id: questionId, question: newQuestion })
 
-    assert.exists(result.id);
-    assert.exists(result.updatedAt);
+    assert.exists(result.id)
+    assert.exists(result.updatedAt)
     assert.notEqual(question.description, result.description)
   })
-
 })
-

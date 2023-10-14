@@ -7,50 +7,43 @@ import { UpdateCategoryUseCase } from 'App/UseCases/Category/UpdateCategoryUseCa
 import { randomUUID } from 'node:crypto'
 
 let repository: InMemoryCategoryRepository
-let sut: UpdateCategoryUseCase;
-let categoryId: string | undefined;
+let sut: UpdateCategoryUseCase
+let categoryId: string | undefined
 let category: CategoryContract
 
 test.group('Update Category Use Case', (group) => {
+  group.each.setup(async () => {
+    repository = new InMemoryCategoryRepository()
+    sut = new UpdateCategoryUseCase(repository)
 
-  group.each.setup( async () => {
-
-    repository = new InMemoryCategoryRepository();
-    sut = new UpdateCategoryUseCase(repository);
-
-    const createUseCase = new CreateCategoryUseCase(repository);
+    const createUseCase = new CreateCategoryUseCase(repository)
 
     const userid = randomUUID()
 
     category = {
       userid: userid,
       description: 'Life & Experiences',
-      status: true
+      status: true,
     }
 
-    const { id } = await createUseCase.execute({category});
+    const { id } = await createUseCase.execute({ category })
 
-    categoryId = id;
-
+    categoryId = id
   })
 
-
   test('Updating a category', async ({ assert }) => {
-
     const newCategory = {
       userid: randomUUID(),
       description: 'New Experience',
-      status: true
+      status: true,
     }
 
-    assert.exists(categoryId);
+    assert.exists(categoryId)
 
-    const result = await sut.execute({ id: categoryId, category: newCategory });
+    const result = await sut.execute({ id: categoryId, category: newCategory })
 
-    assert.exists(result.id);
-    assert.exists(result.updatedAt);
+    assert.exists(result.id)
+    assert.exists(result.updatedAt)
     assert.notEqual(category.description, result.description)
   })
-
 })
-
