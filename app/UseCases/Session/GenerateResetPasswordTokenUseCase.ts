@@ -28,7 +28,7 @@ export default class GenerateResetPasswordTokenUseCase {
     const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min
 
     const key = EncryptionUtilService.encrypt({
-      payload: user.id,
+      payload: '1',
       purpose: String(randomNumber),
       expiresIn: this.expiresIn,
     })

@@ -12,7 +12,7 @@ let register: RegisterUseCase
 let generateToken: GenerateResetPasswordTokenUseCase
 let sut: ValidateTokenUseCase
 let user = makeUser()
-let expiresIn = 4
+let expiresIn = 5
 let randomValue: string = ''
 
 test.group('It will test the process of validate a reset password token ', async (group) => {
@@ -46,6 +46,26 @@ test.group('It will test the process of validate a reset password token ', async
 
       assert.equal(statusToken, true)
     }
+  })
+
+  test('Should fail because the key random value was wrong', async ({ assert }) => {
+
+    try{
+
+      if (user.id) {
+        const { statusToken } = await sut.execute({
+          id: user.id,
+          randomValue: randomValue + '19',
+        })
+  
+        assert.equal(statusToken, false)
+
+      }
+
+    }catch(error){
+      assert.ok('The test was successful because the key random value was wrong')
+    }
+   
   })
 
   test('Should failed because reset password token has expired', async ({ assert }) => {
