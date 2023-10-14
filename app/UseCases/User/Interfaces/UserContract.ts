@@ -1,11 +1,14 @@
+import { DateTime } from "luxon"
 
 export interface UserContract {
     name: string,
     email: string,
-    status: boolean,
-    passowrd: string,
+    status?: boolean,
+    password: string,
     forcePasswordReset: boolean,
     resetPasswordToken: string,
+    createdAt?: DateTime, 
+    updatedAt?: DateTime, 
 }
 
 export interface CreateUserContract {
