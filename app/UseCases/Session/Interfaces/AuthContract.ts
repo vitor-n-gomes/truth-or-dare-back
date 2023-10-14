@@ -8,3 +8,8 @@ export interface LoginContract {
 export interface RequestResetPasswordContract {
     email: string
 }
+
+export interface ValidateTokenContract {
+    id: string,
+    randomValue: string
+}

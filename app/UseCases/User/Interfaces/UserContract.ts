@@ -1,6 +1,7 @@
 import { DateTime } from "luxon"
 
 export interface UserContract {
+    id?: string,
     name: string,
     email: string,
     status?: boolean,

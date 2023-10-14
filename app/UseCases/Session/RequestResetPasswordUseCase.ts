@@ -1,20 +1,22 @@
 import { UserRepository } from "App/Repositories/UserRepository";
 import { RequestResetPasswordContract } from "./Interfaces/AuthContract";
-
+import GenerateResetPasswordTokenUseCase from "./GenerateResetPasswordTokenUseCase";
 export default class RequestResetPasswordUseCase {
 
-  constructor(private userRepository: UserRepository) { }
+  private userRepository: UserRepository
 
-  async execute(data: RequestResetPasswordContract): Promise<{message: string}> {
+  constructor(parameters: { userRepository: UserRepository}) { 
+    
+    this.userRepository = parameters.userRepository;
 
-    const user = await this.userRepository.findByEmail(data.email);
+  }
 
-    if (!user) {
-      throw new Error("User does not exist");
-    }
+  async execute(data: RequestResetPasswordContract): Promise<{ message: string }> {
 
+    const generateResetPasswordToken = new GenerateResetPasswordTokenUseCase({ userRepository: this.userRepository})
 
-    return { message: 'Request password '}
+    const { randomValue } = await generateResetPasswordToken.execute(data);
 
+    return {message: 'An email with the link to reset your password has been sent to you'}
   }
 }
