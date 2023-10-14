@@ -3,7 +3,6 @@ import { InMemoryQuestionRepository } from 'App/Repositories/InMemory/InMemoryQu
 import { CreateQuestionUseCase } from 'App/UseCases/Question/CreateQuestionUseCase'
 import { QuestionContract } from 'App/UseCases/Question/Interfaces/QuestionContract'
 import { ListQuestionsUseCase } from 'App/UseCases/Question/ListQuestionsUseCase'
-import { randomUUID } from 'node:crypto'
 import { makeQuestion } from '../factory/make-question'
 
 let repository: InMemoryQuestionRepository
