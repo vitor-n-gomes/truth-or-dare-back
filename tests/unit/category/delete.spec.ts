@@ -3,7 +3,7 @@ import { InMemoryCategoryRepository } from 'App/Repositories/InMemory/InMemoryCa
 import { CreateCategoryUseCase } from 'App/UseCases/Category/CreateCategoryUseCase'
 import { CategoryContract } from 'App/UseCases/Category/Interfaces/CategoryContract'
 import { DeleteCategoryUseCase } from 'App/UseCases/Category/DeleteCategoryUseCase'
-import { randomUUID } from 'node:crypto'
+import { makeCategory } from '../factory/make-category'
 
 let repository: InMemoryCategoryRepository
 let sut: DeleteCategoryUseCase
@@ -17,13 +17,7 @@ test.group('Delete Category Use Case', (group) => {
 
     const createUseCase = new CreateCategoryUseCase(repository)
 
-    const userid = randomUUID()
-
-    category = {
-      userid: userid,
-      description: 'Life & Experiences',
-      status: true,
-    }
+    category =  makeCategory({})
 
     const { id } = await createUseCase.execute({ category })
 

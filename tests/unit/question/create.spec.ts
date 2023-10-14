@@ -2,7 +2,7 @@ import { test } from '@japa/runner'
 import { InMemoryQuestionRepository } from 'App/Repositories/InMemory/InMemoryQuestionRepository'
 import { CreateQuestionUseCase } from 'App/UseCases/Question/CreateQuestionUseCase'
 
-import { randomUUID } from 'node:crypto'
+import { makeQuestion } from '../factory/make-question'
 
 let repository: InMemoryQuestionRepository
 let sut: CreateQuestionUseCase
@@ -14,14 +14,8 @@ test.group('Create Question Use Case', (group) => {
   })
 
   test('Creating a new question', async ({ assert }) => {
-    const id = randomUUID()
 
-    const question = {
-      userid: id,
-      description: 'What is your favorite food?',
-      status: true,
-      type: 1,
-    }
+    const question = makeQuestion({})
 
     const result = await sut.execute({ question })
 

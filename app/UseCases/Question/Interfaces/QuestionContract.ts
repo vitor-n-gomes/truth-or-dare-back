@@ -4,7 +4,7 @@ export interface QuestionContract {
   userid: string
   description: string
   status: boolean
-  type: number
+  type: 'truth' | 'dare'
   createdAt?: DateTime
   updatedAt?: DateTime
 }

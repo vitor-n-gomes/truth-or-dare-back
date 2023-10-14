@@ -3,7 +3,7 @@ import { InMemoryQuestionRepository } from 'App/Repositories/InMemory/InMemoryQu
 import { CreateQuestionUseCase } from 'App/UseCases/Question/CreateQuestionUseCase'
 import { QuestionContract } from 'App/UseCases/Question/Interfaces/QuestionContract'
 import { DeleteQuestionUseCase } from 'App/UseCases/Question/DeleteQuestionUseCase'
-import { randomUUID } from 'node:crypto'
+import { makeQuestion } from '../factory/make-question'
 
 let repository: InMemoryQuestionRepository
 let sut: DeleteQuestionUseCase
@@ -17,14 +17,7 @@ test.group('Delete Question Use Case', (group) => {
 
     const createUseCase = new CreateQuestionUseCase(repository)
 
-    const userid = randomUUID()
-
-    question = {
-      userid: userid,
-      description: 'What is your favorite food?',
-      status: true,
-      type: 1,
-    }
+    question = makeQuestion({})
 
     const { id } = await createUseCase.execute({ question })
 

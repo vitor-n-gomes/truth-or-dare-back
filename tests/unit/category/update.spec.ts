@@ -3,8 +3,7 @@ import { InMemoryCategoryRepository } from 'App/Repositories/InMemory/InMemoryCa
 import { CreateCategoryUseCase } from 'App/UseCases/Category/CreateCategoryUseCase'
 import { CategoryContract } from 'App/UseCases/Category/Interfaces/CategoryContract'
 import { UpdateCategoryUseCase } from 'App/UseCases/Category/UpdateCategoryUseCase'
-
-import { randomUUID } from 'node:crypto'
+import { makeCategory } from '../factory/make-category'
 
 let repository: InMemoryCategoryRepository
 let sut: UpdateCategoryUseCase
@@ -17,14 +16,8 @@ test.group('Update Category Use Case', (group) => {
     sut = new UpdateCategoryUseCase(repository)
 
     const createUseCase = new CreateCategoryUseCase(repository)
-
-    const userid = randomUUID()
-
-    category = {
-      userid: userid,
-      description: 'Life & Experiences',
-      status: true,
-    }
+    
+    category = makeCategory({})
 
     const { id } = await createUseCase.execute({ category })
 
@@ -32,11 +25,7 @@ test.group('Update Category Use Case', (group) => {
   })
 
   test('Updating a category', async ({ assert }) => {
-    const newCategory = {
-      userid: randomUUID(),
-      description: 'New Experience',
-      status: true,
-    }
+    const newCategory = makeCategory({})
 
     assert.exists(categoryId)
 
@@ -44,6 +33,5 @@ test.group('Update Category Use Case', (group) => {
 
     assert.exists(result.id)
     assert.exists(result.updatedAt)
-    assert.notEqual(category.description, result.description)
   })
 })

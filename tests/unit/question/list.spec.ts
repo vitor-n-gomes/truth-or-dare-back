@@ -4,6 +4,7 @@ import { CreateQuestionUseCase } from 'App/UseCases/Question/CreateQuestionUseCa
 import { QuestionContract } from 'App/UseCases/Question/Interfaces/QuestionContract'
 import { ListQuestionsUseCase } from 'App/UseCases/Question/ListQuestionsUseCase'
 import { randomUUID } from 'node:crypto'
+import { makeQuestion } from '../factory/make-question'
 
 let repository: InMemoryQuestionRepository
 let sut: ListQuestionsUseCase
@@ -16,14 +17,7 @@ test.group('List Categories Use Case', (group) => {
 
     const createUseCase = new CreateQuestionUseCase(repository)
 
-    const userid = randomUUID()
-
-    question = {
-      userid: userid,
-      description: 'What is your favorite food?',
-      status: true,
-      type: 1,
-    }
+    question = makeQuestion({})
 
     await createUseCase.execute({ question })
   })

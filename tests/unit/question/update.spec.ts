@@ -3,8 +3,7 @@ import { InMemoryQuestionRepository } from 'App/Repositories/InMemory/InMemoryQu
 import { CreateQuestionUseCase } from 'App/UseCases/Question/CreateQuestionUseCase'
 import { QuestionContract } from 'App/UseCases/Question/Interfaces/QuestionContract'
 import { UpdateQuestionUseCase } from 'App/UseCases/Question/UpdateQuestionUseCase'
-
-import { randomUUID } from 'node:crypto'
+import { makeQuestion } from '../factory/make-question'
 
 let repository: InMemoryQuestionRepository
 let sut: UpdateQuestionUseCase
@@ -18,26 +17,15 @@ test.group('Update Question Use Case', (group) => {
 
     const createUseCase = new CreateQuestionUseCase(repository)
 
-    const userid = randomUUID()
+    question = makeQuestion({})
 
-    question = {
-      userid: userid,
-      description: 'What is your favorite food?',
-      status: true,
-      type: 1,
-    }
     const { id } = await createUseCase.execute({ question })
 
     questionId = id
   })
 
   test('Updating a question', async ({ assert }) => {
-    const newQuestion = {
-      userid: randomUUID(),
-      description: 'Send a picture showing your tongue for your mom?',
-      status: true,
-      type: 2,
-    }
+    const newQuestion = makeQuestion({})
 
     assert.exists(questionId)
 
