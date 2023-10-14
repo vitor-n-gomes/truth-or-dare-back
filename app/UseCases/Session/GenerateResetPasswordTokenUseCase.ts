@@ -5,10 +5,14 @@ import { EncryptionUtilService } from "App/Services/EncryptionUtilService";
 export default class GenerateResetPasswordTokenUseCase {
 
   private userRepository: UserRepository
+  private expiresIn: string | number = '2 hours'
 
-  constructor(parameters: { userRepository: UserRepository }) {
+  constructor(parameters: { userRepository: UserRepository, expiresIn?: string | number }) {
 
-    this.userRepository = parameters.userRepository;
+    const {userRepository, expiresIn} = parameters
+
+    this.userRepository = userRepository;
+    this.expiresIn = expiresIn || this.expiresIn;
 
   }
 
@@ -28,7 +32,7 @@ export default class GenerateResetPasswordTokenUseCase {
     const key = EncryptionUtilService.encrypt({
       payload: user.id,
       purpose: String(randomNumber),
-      expiresIn: '2 hours'
+      expiresIn: this.expiresIn
     })
 
     user.forcePasswordReset = true;
