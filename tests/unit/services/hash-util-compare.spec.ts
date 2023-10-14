@@ -2,21 +2,19 @@ import { test } from '@japa/runner'
 import { HashUtilService } from 'App/Services/HashUtilService';
 
 let hashedValue = '';
-const plainTextValue = 'ItCouldBeAPassword';
-const wrongPlainTextValue = 'ItCouldBe';
+let plainTextValue = 'ItCouldBeAPassword';
+let wrongPlainTextValue = 'ItCouldBe';
 
-test.group('It test the hash util service', () => {
+test.group('It test the hash util service and your respective method compare ', (group) => {
 
-  test('Should be able to create a hash from a plain text', async ({ assert }) => {
+  group.each.setup(async () => {
+    
+    hashedValue = await HashUtilService.generateHash({
+      plainText:plainTextValue
+    });  
 
-      hashedValue = await HashUtilService.generateHash({
-        plainText: plainTextValue
-      });
+  });
 
-      console.log(hashedValue);
-
-      assert.notEqual(plainTextValue, hashedValue);
-  })
 
   test('Should be able to compare a hash with plain text', async ({ assert }) => {
 
