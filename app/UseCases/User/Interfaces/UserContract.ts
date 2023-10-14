@@ -17,9 +17,9 @@ export interface CreateUserContract {
 }
 
 export interface UpdateUserContract extends CreateUserContract {
-  id: string
+  id?: string
 }
 
 export interface DeleteUserContract {
-  id: string
+  id?: string
 }
