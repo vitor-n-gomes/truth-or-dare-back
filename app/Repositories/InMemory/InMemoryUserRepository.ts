@@ -1,62 +1,69 @@
 import {
-  CategoryContract,
-  CreateCategoryContract,
-  UpdateCategoryContract,
-  DeleteCategoryContract
-} from "App/UseCases/Category/Interfaces/CategoryContract";
+  UserContract,
+  CreateUserContract,
+  UpdateUserContract,
+  DeleteUserContract
+} from "App/UseCases/User/Interfaces/UserContract";
 
-import { CategoryRepository } from "../CategoryRepository";
+import { UserRepository } from "../UserRepository";
 import BadRequestException from "App/Exceptions/BadRequestException";
 import { randomUUID } from 'node:crypto'
 import { DateTime } from "luxon";
 
-export class InMemoryCategoryRepository implements CategoryRepository {
+export class InMemoryUserRepository implements UserRepository {
 
-  public items: CategoryContract[] = []
+  public items: UserContract[] = []
 
-  async list(): Promise<CategoryContract[]> {
+  async list(): Promise<UserContract[]> {
     return this.items;
   }
 
-  async show(id: string): Promise<CategoryContract | null> {
+  async findByEmail(email: string): Promise<UserContract | null> {
+
+    const item = this.items.find((item) => item.email === email);
+
+    return item ?? null;
+  }
+
+  async show(id: string): Promise<UserContract | null> {
     const item = this.items.find((item) => item.id === id);
     return item ?? null;
   }
 
-  async create(data: CreateCategoryContract): Promise<CategoryContract> {
-    const newCategory = {
-      ...data.category,
+  async create(data: CreateUserContract): Promise<UserContract> {
+    const newUser = {
+      ...data.user,
       id: randomUUID(),
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     };
-    this.items.push(newCategory);
-    return newCategory;
+    this.items.push(newUser);
+    return newUser;
   }
 
-  async update(data: UpdateCategoryContract): Promise<CategoryContract> {
+  async update(data: UpdateUserContract): Promise<UserContract> {
     const index = this.items.findIndex((item) => item.id === data.id);
     if (index === -1) {
-      throw new BadRequestException('This Category does not exist', 409);
+      throw new BadRequestException('This User does not exist', 409);
     }
 
-    const updatedCategory = {
+    const updatedUser = {
       ...this.items[index],
-      ...data.category,
+      ...data.user,
       id: data.id,
       updatedAt: DateTime.now(),
     };
-    this.items[index] = updatedCategory;
-    return updatedCategory;
+    this.items[index] = updatedUser;
+    return updatedUser;
   }
 
-  async delete(data: DeleteCategoryContract): Promise<{ message: string }> {
+  async delete(data: DeleteUserContract): Promise<{ message: string }> {
     const index = this.items.findIndex((item) => item.id === data.id);
     if (index === -1) {
-      throw new BadRequestException('This Category does not exist', 404);
+      throw new BadRequestException('This User does not exist', 404);
     }
 
     this.items.splice(index, 1);
-    return { message: 'Category has been deleted successfully' };
+    return { message: 'User has been deleted successfully' };
   }
 }

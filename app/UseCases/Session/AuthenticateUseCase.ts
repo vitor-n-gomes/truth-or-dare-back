@@ -26,8 +26,9 @@ export default class AuthenticateUseCase {
             throw new Error("The user is not actived");
         }
 
+
         const comparePassword = await HashUtilService.comparePlainTextWithHash({
-            plainTextValue: data.passowrd,
+            plainTextValue: data.password,
             hashedValue: user.password
         });
 

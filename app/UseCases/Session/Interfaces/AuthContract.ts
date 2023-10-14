@@ -1,7 +1,7 @@
 
 export interface LoginContract {
     email: string,
-    passowrd: string
+    password: string
 }
 
 
