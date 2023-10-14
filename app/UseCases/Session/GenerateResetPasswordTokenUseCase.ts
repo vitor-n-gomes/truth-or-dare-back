@@ -16,7 +16,7 @@ export default class GenerateResetPasswordTokenUseCase {
 
   }
 
-  async execute(data: RequestResetPasswordContract): Promise<{ message: string, randomValue: string }> {
+  async execute(data: RequestResetPasswordContract): Promise<{ message: string, randomValue: string, expiresIn: string | number }> {
 
     const user = await this.userRepository.findByEmail(data.email);
 
@@ -43,7 +43,7 @@ export default class GenerateResetPasswordTokenUseCase {
       user: user
     })
 
-    return { message: 'Token has been created', randomValue: String(randomNumber)}
+    return { message: 'Token has been created', randomValue: String(randomNumber), expiresIn: this.expiresIn}
 
   }
 }
